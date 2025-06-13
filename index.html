@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ro Sell - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#f9f4e8] text-black flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    <h1 class="text-3xl font-bold mb-6 text-center">Ro Sell</h1>
+    <form onsubmit="signIn(event)" class="space-y-4">
+      <input name="email" type="email" placeholder="Email" required
+        class="w-full p-3 border rounded focus:outline-none focus:ring" />
+      <input name="password" type="password" placeholder="Password" required
+        class="w-full p-3 border rounded focus:outline-none focus:ring" />
+      <button type="submit" class="bg-black text-white w-full py-3 rounded hover:bg-gray-800">
+        Login
+      </button>
+    </form>
+
+    <hr class="my-6">
+
+    <form onsubmit="signUp(event)" class="space-y-4">
+      <input name="email" type="email" placeholder="Signup Email" required
+        class="w-full p-3 border rounded focus:outline-none focus:ring" />
+      <input name="password" type="password" placeholder="Password" required
+        class="w-full p-3 border rounded focus:outline-none focus:ring" />
+      <button type="submit" class="bg-gray-800 text-white w-full py-3 rounded hover:bg-black">
+        Sign Up
+      </button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const supabase = createClient(
+      "https://ppspbklpewnlyftbgnhh.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBwc3Bia2xwZXdubHlmdGJnbmhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk3NTIyMDgsImV4cCI6MjA2NTMyODIwOH0.gcGgErW6xteRBTBEFdYOxAY8TYrjdjaAz_l53hQBMa8"
+    );
+
+    async function signIn(e) {
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) return alert(error.message);
+      window.location.href = "https://ro-sell.vercel.app"; // Change this to your actual store domain
+    }
+
+    async function signUp(e) {
+      e.preventDefault();
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) return alert(error.message);
+      alert("Signup successful! Please confirm your email.");
+    }
+  </script>
+</body>
+</html>
